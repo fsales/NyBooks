@@ -11,7 +11,7 @@ class BooksActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_books)
 
-        toobarMain.title ="Books"
+        toobarMain.title =getString(R.string.books_title)
         setSupportActionBar(toobarMain)
     }
 }
