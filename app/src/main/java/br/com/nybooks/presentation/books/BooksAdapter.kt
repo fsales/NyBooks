@@ -5,25 +5,32 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.nybooks.R
+import br.com.nybooks.data.model.Book
+import kotlinx.android.synthetic.main.item_book.view.*
 
-class BooksAdapter : RecyclerView.Adapter<BooksAdapter.BooksViewHolder>() {
+class BooksAdapter(private val books: List<Book>) : RecyclerView.Adapter<BooksAdapter.BooksViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BooksViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_book, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_book, parent, false)
 
-        return BooksViewHolder(view)
+        return BooksViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getItemCount(): Int = books.count()
 
     override fun onBindViewHolder(holder: BooksViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        holder.bindView(books[position])
     }
 
-    class BooksViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class BooksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        private val title = itemView.textTitle
+        private val author = itemView.textAuthor
+
+        fun bindView(book: Book) {
+            title.text = book.title
+            author.text = book.author
+        }
     }
 
 }
