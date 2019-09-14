@@ -1,0 +1,7 @@
+Dicas:
+
+Layout:
+usar a tag tools: para exibir os itens do layout no modo de desenvolvimento.
+
+ViewModel:
+Não receber referência da activity ou fragment no view model.
