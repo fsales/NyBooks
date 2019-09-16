@@ -5,16 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.com.nybooks.R
+import br.com.nybooks.presentation.base.BaseAcivity
 import kotlinx.android.synthetic.main.activity_book_details.*
+import kotlinx.android.synthetic.main.include_toolbar.*
 import java.time.Instant
 
-class BookDetailsActivity : AppCompatActivity() {
+class BookDetailsActivity : BaseAcivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_details)
 
-
+        setupToolbar(toolbarMain, R.string.books_details_title)
         bookDetailsTitle.text = intent.getStringExtra(EXTRA_TITLE)
         bookDetailsDescription.text = intent.getStringExtra(EXTRA_DESCRIPTION)
     }
