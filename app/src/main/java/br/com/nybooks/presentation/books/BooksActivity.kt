@@ -1,7 +1,6 @@
 package br.com.nybooks.presentation.books
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +35,16 @@ class BooksActivity : BaseAcivity() {
 
                         this@BooksActivity.startActivity(intent)
                     }
+                }
+            }
+        })
+
+        viewModel.viewFlipperLiveData.observe(this, Observer {
+            it?.let { viewFlipper ->
+                viewFlipperBooks.displayedChild = viewFlipper.first
+
+                viewFlipper.second?.let { errorMessageResId ->
+                    textViewError.text = getString(errorMessageResId)
                 }
             }
         })
