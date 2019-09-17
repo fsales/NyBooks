@@ -24,28 +24,24 @@ class BooksViewModel : ViewModel() {
                 call: Call<BookBodyResponse>,
                 response: Response<BookBodyResponse>
             ) {
-                if (response.isSuccessful) {
-                    val books: MutableList<Book> = mutableListOf()
+                when {
+                    response.isSuccessful -> {
+                        val books: MutableList<Book> = mutableListOf()
 
-                    response.body()?.let { bookBodyResponse ->
-                        for (result in bookBodyResponse.bookResult) {
+                        response.body()?.let { bookBodyResponse ->
+                            for (result in bookBodyResponse.bookResult) {
 
-                            val bookDetail = result.bookDetails[0]
-                            val book = Book(
-                                title = bookDetail.title,
-                                author = bookDetail.author,
-                                description = bookDetail.description
-                            )
-                            books.add(book)
+                                val bookDetail = result.bookDetails[0]
+                                books.add(bookDetail.getBookMode())
+                            }
                         }
-                    }
 
-                    booksLiveData.value = books
-                    viewFlipperLiveData.value = Pair(VIEW_FLIPE_BOOKS, null)
-                } else if (response.code() == 401) {
-                    viewFlipperLiveData.value = Pair(VIEW_FLIPE_ERROR, R.string.books_error_401)
-                } else {
-                    viewFlipperLiveData.value =
+                        booksLiveData.value = books
+                        viewFlipperLiveData.value = Pair(VIEW_FLIPE_BOOKS, null)
+                    }
+                    response.code() == 401 -> viewFlipperLiveData.value =
+                        Pair(VIEW_FLIPE_ERROR, R.string.books_error_401)
+                    else -> viewFlipperLiveData.value =
                         Pair(VIEW_FLIPE_ERROR, R.string.books_error_400_generic)
                 }
             }
