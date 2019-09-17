@@ -1,28 +1,23 @@
 package br.com.nybooks.presentation.books
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.nybooks.R
-import br.com.nybooks.data.model.Book
+import br.com.nybooks.presentation.base.BaseAcivity
 import br.com.nybooks.presentation.details.BookDetailsActivity
 import kotlinx.android.synthetic.main.activity_books.*
+import kotlinx.android.synthetic.main.include_toolbar.*
 
-class BooksActivity : AppCompatActivity() {
+class BooksActivity : BaseAcivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_books)
 
-        toobarMain.title = getString(R.string.books_title)
-        setSupportActionBar(toobarMain)
-
+        setupToolbar(toolbarMain, R.string.books_title)
 
         val viewModel: BooksViewModel = ViewModelProviders.of(this).get(BooksViewModel::class.java)
         viewModel.booksLiveData.observe(this, Observer {
@@ -40,6 +35,16 @@ class BooksActivity : AppCompatActivity() {
 
                         this@BooksActivity.startActivity(intent)
                     }
+                }
+            }
+        })
+
+        viewModel.viewFlipperLiveData.observe(this, Observer {
+            it?.let { viewFlipper ->
+                viewFlipperBooks.displayedChild = viewFlipper.first
+
+                viewFlipper.second?.let { errorMessageResId ->
+                    textViewError.text = getString(errorMessageResId)
                 }
             }
         })
